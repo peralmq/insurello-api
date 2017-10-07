@@ -1,5 +1,5 @@
 export interface Storage {
-  create(key: string, value: any),
+  create(key: string, value: any): any,
   destroy(key: string): any,
   index(): [any],
   show(key: string): any,
@@ -8,10 +8,16 @@ export interface Storage {
 
 export default (): Storage => {
     const entries = {}
+    var id = 1
 
     return {
-      create: (key: string, value: any) => {
-          entries[key] = value
+      create: (key: string, value: any): any => {
+        if (!key) {
+          key = `${id}`
+          id += 1
+        }
+        entries[key] = {_id: key, ...value}
+        return entries[key]
       },
       destroy: (key: string): any => {
         const value = entries[key]
