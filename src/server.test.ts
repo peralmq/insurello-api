@@ -27,6 +27,21 @@ describe('Insurello API', () => {
 
   })
 
+  describe('GET /events', () => {
+
+    it('should create a new event', (done) => {
+      supertest(server)
+      .get('/events')
+      .type('json')
+      .expect(200)
+      .expect(res => {
+        expect(res.body).to.deep.equal([{id: '1', state: 'open'}])
+      })
+      .end(done)
+    })
+
+  })
+
   describe('GET /events/:id', () => {
 
     it('should show an event', (done) => {

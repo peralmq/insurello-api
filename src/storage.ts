@@ -3,11 +3,12 @@ export interface Storage {
   destroy(key: string): any,
   index(): [any],
   show(key: string): any,
+  truncate(),
   update(key: string, value: any): any,
 }
 
 export default (): Storage => {
-    const entries = {}
+    var entries = {}
     var id = 1
 
     return {
@@ -27,6 +28,10 @@ export default (): Storage => {
       },
       index: (): [any] => (<any>Object).values(entries),
       show: (key: string): any => entries[key],
+      truncate: () => {
+        entries = {}
+        id = 1
+      },
       update: (key: string, value: any): any => {
         var updatedValue = {...entries[key], ...value}
         entries[key] = updatedValue

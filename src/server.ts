@@ -3,7 +3,6 @@ import * as morgan from 'morgan'
 import * as bodyParser from 'body-parser'
 
 import Router from './routes'
-// import Storage from './storage'
 
 const server: express.Application = express()
 server.use(morgan('dev'))
