@@ -13,6 +13,7 @@ export default (): Storage => {
     return {
       create: (key: string, value: any): any => {
         if (!key) {
+          // TODO make sure no conflicts here
           key = `${id}`
           id += 1
         }
