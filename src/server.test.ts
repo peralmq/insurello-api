@@ -71,12 +71,42 @@ describe('Insurello API', () => {
       .end(done)
     })
 
+    it('should fail on bad Content-Type', (done) => {
+      supertest(server)
+      .patch('/events/1')
+      .type('form')
+      .send({state: 'closed'})
+      .expect(400)
+      .end(done)
+    })
+
+    it('should fail on bad body', (done) => {
+      supertest(server)
+      .patch('/events/1')
+      .type('json')
+      .send()
+      .expect(400)
+      .end(done)
+    })
+
   })
 
-// /events
-//   id: string
-//   state: enum(/open|closed|dismissed|reopened/)
-// events/:id/history
-//   changed_by: string
-//   timestamp: timestamp
+  describe('GET /events/:id/history', () => {
+
+    it('should show the history of changes to an event', (done) => {
+      supertest(server)
+      .get('/events/1/history')
+      .type('json')
+      .expect(200)
+      .expect(res => {
+        expect(res.body).to.deep.equal([
+          {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}},
+          {timestamp: '2017-10-01', change: {state: {from: 'open', to: 'closed'}}},
+        ])
+      })
+      .end(done)
+    })
+
+  })
+
 })

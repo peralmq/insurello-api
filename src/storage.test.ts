@@ -1,6 +1,7 @@
 import 'mocha'
 import { expect } from 'chai'
 import Storage from './storage'
+import { DuplicateKey } from './errors'
 
 describe('Storage', () => {
   const storage = Storage()
@@ -10,6 +11,10 @@ describe('Storage', () => {
 
   it('create', () => {
     expect(storage.create(key, value)).to.deep.equal(valueWithEmbeddedKey)
+  })
+
+  it('create fails on duplicate key', () => {
+    expect(() => storage.create(key, value)).to.throw(DuplicateKey)
   })
 
   it('index', () => {

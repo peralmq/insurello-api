@@ -1,3 +1,5 @@
+import { DuplicateKey } from './errors'
+
 export interface Storage {
   create(key: string, value: any): any,
   destroy(key: string): any,
@@ -11,12 +13,19 @@ export default (): Storage => {
     var entries = {}
     var id = 1
 
+    function show(key: string): any {
+      if (entries.hasOwnProperty(key)) {
+        return entries[key]
+      }
+    }
+
     return {
       create: (key: string, value: any): any => {
         if (!key) {
-          // TODO make sure no conflicts here
           key = `${id}`
           id += 1
+        } else if (show(key) !== undefined) {
+          throw new DuplicateKey(key)
         }
         entries[key] = {_id: key, ...value}
         return entries[key]
@@ -27,7 +36,7 @@ export default (): Storage => {
         return value
       },
       index: (): [any] => (<any>Object).values(entries),
-      show: (key: string): any => entries[key],
+      show: show,
       truncate: () => {
         entries = {}
         id = 1

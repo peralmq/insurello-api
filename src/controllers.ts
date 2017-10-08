@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { Events as EventService } from './services'
+import { BadState } from './errors'
+import { Events as EventService, EventsHistory as EventsHistoryService } from './services'
 
 export const Events = {
   create: (req: express.Request, res: express.Response) => {
@@ -15,8 +16,23 @@ export const Events = {
     res.status(200).json(event)
   },
   update: (req: express.Request, res: express.Response) => {
+    if (!req.is('json')) {
+      return res.status(400).end()
+    }
+
     const {state} = req.body
-    const updatedEvent = EventService.update(req.params.id, {state})
-    res.status(200).json(updatedEvent)
+    try {
+      const updatedEvent = EventService.update(req.params.id, state)
+      res.status(200).json(updatedEvent)
+    } catch (BadState) {
+      return res.status(400).end()
+    }
+  }
+}
+
+export const EventsHistory = {
+  show: (req: express.Request, res: express.Response) => {
+    const eventHistory = EventsHistoryService.show(req.params.id)
+    res.status(200).json(eventHistory)
   }
 }
