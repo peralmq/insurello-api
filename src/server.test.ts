@@ -1,7 +1,10 @@
 import 'mocha'
 import { expect } from 'chai'
 import * as supertest from 'supertest'
+import * as moment from 'moment'
 import server from './server'
+
+const today = moment().format('YYYY-MM-DD')
 
 describe('Insurello API', () => {
   it('GET /', (done) => {
@@ -100,8 +103,8 @@ describe('Insurello API', () => {
       .expect(200)
       .expect(res => {
         expect(res.body).to.deep.equal([
-          {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}},
-          {timestamp: '2017-10-01', change: {state: {from: 'open', to: 'closed'}}},
+          {timestamp: today, change: {state: {from: null, to: 'open'}}},
+          {timestamp: today, change: {state: {from: 'open', to: 'closed'}}},
         ])
       })
       .end(done)

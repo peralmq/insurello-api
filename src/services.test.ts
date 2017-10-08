@@ -1,8 +1,11 @@
 import 'mocha'
 import { expect } from 'chai'
+import * as moment from 'moment'
 
 import { BadState } from './errors'
 import { Events, EventsHistory } from './services'
+
+const today = moment().format('YYYY-MM-DD')
 
 describe('Services', () => {
   describe('Events', () => {
@@ -15,7 +18,7 @@ describe('Services', () => {
     it('create', () => {
       expect(Events.create()).to.deep.equal({id: '1', state: 'open'})
       expect(EventsHistory.show('1')).to.deep.equal([
-        {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}}
+        {timestamp: today, change: {state: {from: null, to: 'open'}}}
       ])
     })
 
@@ -30,8 +33,8 @@ describe('Services', () => {
     it('update', () => {
       expect(Events.update('1', 'dismissed')).to.deep.equal({id: '1', state: 'dismissed'})
       expect(EventsHistory.show('1')).to.deep.equal([
-        {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}},
-        {timestamp: '2017-10-01', change: {state: {from: 'open', to: 'dismissed'}}}
+        {timestamp: today, change: {state: {from: null, to: 'open'}}},
+        {timestamp: today, change: {state: {from: 'open', to: 'dismissed'}}}
       ])
     })
 
@@ -45,7 +48,7 @@ describe('Services', () => {
 
     it('add', () => {
       expect(EventsHistory.add('2', null, 'open')).to.deep.equal(
-        {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}}
+        {timestamp: today, change: {state: {from: null, to: 'open'}}}
       )
     })
 
@@ -55,10 +58,10 @@ describe('Services', () => {
       EventsHistory.add('3', 'dismissed', 'reopened')
       EventsHistory.add('3', 'reopened', 'closed')
       expect(EventsHistory.show('3')).to.deep.equal([
-        {timestamp: '2017-10-01', change: {state: {from: null, to: 'open'}}},
-        {timestamp: '2017-10-01', change: {state: {from: 'open', to: 'dismissed'}}},
-        {timestamp: '2017-10-01', change: {state: {from: 'dismissed', to: 'reopened'}}},
-        {timestamp: '2017-10-01', change: {state: {from: 'reopened', to: 'closed'}}},
+        {timestamp: today, change: {state: {from: null, to: 'open'}}},
+        {timestamp: today, change: {state: {from: 'open', to: 'dismissed'}}},
+        {timestamp: today, change: {state: {from: 'dismissed', to: 'reopened'}}},
+        {timestamp: today, change: {state: {from: 'reopened', to: 'closed'}}},
       ])
     })
 

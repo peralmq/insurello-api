@@ -1,3 +1,6 @@
+import * as moment from 'moment'
+const today = () => moment().format('YYYY-MM-DD')
+
 export interface Event {
   id: string,
   state: string,
@@ -26,7 +29,7 @@ export const EventHistoryBuilder = ({
   },
   fromData: ({from, to}): EventHistory => {
     return {
-      timestamp: '2017-10-01',
+      timestamp: today(),
       change: {
         state: {
           from,
