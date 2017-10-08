@@ -7,8 +7,14 @@ Stack based on
 
 ## Usage
 ```
-> curl localhost:9003
-Hello from the TypeScript world!
+❯ curl -X POST localhost:3000/events
+{"id":"1","state":"open"}%
+❯ curl localhost:3000/events/1
+{"id":"1","state":"open"}
+curl -X PATCH localhost:3000/events/1 -H 'Content-Type: application/json' -d '{"state": "closed"}'
+{"id":"1","state":"closed"}
+❯ curl localhost:3000/events/1/history
+[{"timestamp":"2017-10-01","change":{"state":{"from":null,"to":"open"}}},{"timestamp":"2017-10-01","change":{"state":{"from":"open","to":"closed"}}}]
 ```
 
 ## Local development
