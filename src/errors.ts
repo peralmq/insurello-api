@@ -1,3 +1,11 @@
+export class NotFound extends Error {
+  constructor(key: string) {
+    super(`Not found '${key}'`)
+    this.name = 'NotFound'
+    Object.setPrototypeOf(this, NotFound.prototype)
+  }
+}
+
 export class DuplicateKey extends Error {
   constructor(key: string) {
     super(`Duplicate key '${key}'`)

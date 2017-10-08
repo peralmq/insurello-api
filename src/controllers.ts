@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { BadState } from './errors'
+import { NotFound, BadState } from './errors'
 import { Events as EventService, EventsHistory as EventsHistoryService } from './services'
 
 export const Events = {
@@ -12,8 +12,12 @@ export const Events = {
     res.status(200).json(events)
   },
   show: (req: express.Request, res: express.Response) => {
-    const event = EventService.show(req.params.id)
-    res.status(200).json(event)
+    try {
+      const event = EventService.show(req.params.id)
+        res.status(200).json(event)
+    } catch (NotFound) {
+      return res.status(404).end()
+    }
   },
   update: (req: express.Request, res: express.Response) => {
     if (!req.is('json')) {
@@ -32,7 +36,11 @@ export const Events = {
 
 export const EventsHistory = {
   show: (req: express.Request, res: express.Response) => {
-    const eventHistory = EventsHistoryService.show(req.params.id)
-    res.status(200).json(eventHistory)
+    try {
+      const eventHistory = EventsHistoryService.show(req.params.id)
+      res.status(200).json(eventHistory)
+    } catch (NotFound) {
+      return res.status(404).end()
+    }
   }
 }

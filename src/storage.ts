@@ -1,4 +1,4 @@
-import { DuplicateKey } from './errors'
+import { DuplicateKey, NotFound } from './errors'
 
 export interface Storage {
   create(key: string, value: any): any,
@@ -14,9 +14,10 @@ export default (): Storage => {
     var id = 1
 
     function show(key: string): any {
-      if (entries.hasOwnProperty(key)) {
-        return entries[key]
+      if (!entries.hasOwnProperty(key)) {
+        throw new NotFound(key)
       }
+      return entries[key]
     }
 
     return {
@@ -31,6 +32,7 @@ export default (): Storage => {
         return entries[key]
       },
       destroy: (key: string): any => {
+        show(key)
         const value = entries[key]
         delete entries[key]
         return value
@@ -42,6 +44,7 @@ export default (): Storage => {
         id = 1
       },
       update: (key: string, value: any): any => {
+        show(key)
         var updatedValue = {...entries[key], ...value}
         entries[key] = updatedValue
         return updatedValue
