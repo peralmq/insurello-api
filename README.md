@@ -17,6 +17,23 @@ curl -X PATCH localhost:3000/events/1 -H 'Content-Type: application/json' -d '{"
 [{"timestamp":"2017-10-01","change":{"state":{"from":null,"to":"open"}}},{"timestamp":"2017-10-01","change":{"state":{"from":"open","to":"closed"}}}]
 ```
 
+## Structure
+
+### `src/server.js` 
+Web server and main entry point
+### `src/routes.js`
+Path based routing between server and controllers. I.e. requests to`GET /events/:id` are routed to `controllers.Events.show`
+### `src/controllers.js`
+HTTP <-> Business logic communication.
+### `src/services.js`
+Business logic and glue between other services. Uses dependency injection and tries to keep each service isolated from others to ease breaking out individual services to web services in the future
+### `src/models.js`
+Business logic models and converters between controller and storage objects.
+### `src/storage.js`
+Persistance layer. For now in-memory but due to it's clear interface a rewrite in to a database connector should be easy.
+### `src/errors.js`
+Defines error function that are global to the stack.
+
 ## Local development
 ```
 npm install -g yarn
@@ -25,6 +42,7 @@ yarn start
 ```
 
 ### Tests
+Test files lives beside implementation files but has the file name ending `*.test.ts`
 ```
 yarn test
 ```
