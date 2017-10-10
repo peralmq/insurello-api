@@ -1,0 +1,7 @@
+{
+  "name": "poc-typescript-api",
+  "description": "TypeScript tech stack",
+  "repository": "https://github.com/peralmq/poc-typescript-api",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "express", "typescript"]
+}

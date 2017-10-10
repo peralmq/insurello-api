@@ -1,5 +1,5 @@
 {
-  "name": "insurello-api",
+  "name": "poc-typescript-api",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
     "tsc": "tsc",
     "test": "mocha build/**.test.js"
   },
-  "engine": {
-    "node": "8.6+"
+  "engines": {
+    "node": "^8.5.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.4",

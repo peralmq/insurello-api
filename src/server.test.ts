@@ -6,7 +6,7 @@ import server from './server'
 
 const today = moment().format('YYYY-MM-DD')
 
-describe('Insurello API', () => {
+describe('TypeScript API', () => {
   it('GET /', (done) => {
     supertest(server)
     .get('/')

@@ -11,6 +11,6 @@ server.use(bodyParser.json())
 server.use('/', Router)
 
 const port = process.env.PORT || 3000
-server.listen(port, () => console.log(`The Insurello API is up and running on port ${port}.`))
+server.listen(port, () => console.log(`The TypeScript API is up and running on port ${port}.`))
 
 export default server
